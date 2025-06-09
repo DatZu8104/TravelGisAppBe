@@ -29,7 +29,7 @@ app.post('/api/auth/register', async (req, res) => {
     // Tạo người dùng mới
     await pool.query(
       'INSERT INTO users (users, password, email) VALUES ($1, $2, $3)',
-      [username, hashed, `${username}@example.com`] // 👈 bạn nên cập nhật email thực tế nếu có
+      [username, hashed, `${username}@example.com`] 
     );
 
     res.status(201).json({ message: 'Đăng ký thành công' });
@@ -54,17 +54,17 @@ app.post('/api/auth/login', async (req, res) => {
       return res.status(401).json({ message: 'Sai tên tài khoản hoặc mật khẩu' });
     }
 
-    // ✅ Tạo JWT token
+    //  Tạo JWT token
     const token = jwt.sign(
       { username: user.users, id: user.id },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 
-    // ✅ Trả token về frontend
+    //  Trả token về frontend
     res.status(200).json({
       message: 'Đăng nhập thành công',
-      token, // 👈 đây là token mà frontend cần lưu
+      token,
     });
   } catch (e) {
     console.error(e);
